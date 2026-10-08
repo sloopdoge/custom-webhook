@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace webhook.sample.Data;
+namespace webhook.sample.repository;
 
 public class WebhookDbContext(DbContextOptions<WebhookDbContext> options) : DbContext(options)
 {

@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace webhook.sample.Services;
+namespace webhook.sample.application.Interfaces;
 
 public record WebhookExecutionResult(int StatusCode, string? ResponseJson, string? Error = null);
 

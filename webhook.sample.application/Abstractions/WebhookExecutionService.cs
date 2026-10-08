@@ -1,10 +1,14 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using webhook.sample.Data;
+using Microsoft.Extensions.Logging;
+using webhook.sample.application.Interfaces;
+using webhook.sample.repository;
 
-namespace webhook.sample.Services;
+namespace webhook.sample.application.Abstractions;
 
-public class WebhookExecutionService(WebhookDbContext database, WebhookSchemaValidator validator,
+public class WebhookExecutionService(
+    WebhookDbContext database,
+    WebhookSchemaValidator validator,
     ILogger<WebhookExecutionService> logger) : IWebhookExecutionService
 {
     public async Task<WebhookExecutionResult> ExecuteAsync(string path, string method, JsonElement body,
@@ -29,7 +33,8 @@ public class WebhookExecutionService(WebhookDbContext database, WebhookSchemaVal
             return new(500, null, "Invalid webhook response configuration.");
         }
 
-        logger.LogInformation("Webhook {WebhookId} handled with status {StatusCode}", config.Id, config.ResponseStatusCode);
+        logger.LogInformation("Webhook {WebhookId} handled with status {StatusCode}", config.Id,
+            config.ResponseStatusCode);
         return new(config.ResponseStatusCode, config.ResponseBodyJson);
     }
 }

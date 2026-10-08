@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace webhook.sample.Data.Migrations;
+namespace webhook.sample.repository.Migrations;
 
 [DbContext(typeof(WebhookDbContext))]
 public class WebhookDbContextModelSnapshot : ModelSnapshot

@@ -1,4 +1,4 @@
-namespace webhook.sample.Data;
+namespace webhook.sample.repository;
 
 public class WebhookDefinition
 {

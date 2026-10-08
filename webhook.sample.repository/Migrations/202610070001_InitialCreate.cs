@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using webhook.sample.Data;
 
-namespace MintWebhook.Data.Migrations;
+namespace webhook.sample.repository.Migrations;
 
 [DbContext(typeof(WebhookDbContext))]
 [Migration("202610070001_InitialCreate")]

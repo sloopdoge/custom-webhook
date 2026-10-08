@@ -13,9 +13,25 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
 webhook.sample/bin/
 webhook.sample/obj/
+
+webhook.sample.repository/bin/
+webhook.sample.repository/obj/
+
+webhook.sample.domain/bin/
+webhook.sample.domain/obj/
+
+webhook.sample.application/bin/
+webhook.sample.application/obj/
+
+webhook.sample.infrastructure/bin/
+webhook.sample.infrastructure/obj/
+
 /.idea/
+/webhook.sample.sln.DotSettings.user
+
 *.db
 *.db-shm
 *.db-wal

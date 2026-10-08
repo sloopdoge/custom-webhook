@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Json.Schema;
 
-namespace webhook.sample.Services;
+namespace webhook.sample.application.Abstractions;
 
 public class WebhookSchemaValidator
 {

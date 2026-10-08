@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using webhook.sample.Data;
-using webhook.sample.Models;
+using webhook.sample.application.Interfaces;
+using webhook.sample.domain.Models;
+using webhook.sample.repository;
 
-namespace webhook.sample.Services;
+namespace webhook.sample.application.Abstractions;
 
 public class WebhookConfigurationService(WebhookDbContext database, WebhookSchemaValidator validator)
     : IWebhookConfigurationService
@@ -21,7 +22,8 @@ public class WebhookConfigurationService(WebhookDbContext database, WebhookSchem
         return item is null ? null : ToView(item);
     }
 
-    public async Task<WebhookConfigurationView> CreateAsync(WebhookConfiguration configuration, CancellationToken cancellationToken = default)
+    public async Task<WebhookConfigurationView> CreateAsync(WebhookConfiguration configuration,
+        CancellationToken cancellationToken = default)
     {
         var item = new WebhookDefinition { Id = Guid.NewGuid() };
         await ApplyAsync(item, configuration, cancellationToken);
@@ -30,7 +32,8 @@ public class WebhookConfigurationService(WebhookDbContext database, WebhookSchem
         return ToView(item);
     }
 
-    public async Task<WebhookConfigurationView?> UpdateAsync(Guid id, WebhookConfiguration configuration, CancellationToken cancellationToken = default)
+    public async Task<WebhookConfigurationView?> UpdateAsync(Guid id, WebhookConfiguration configuration,
+        CancellationToken cancellationToken = default)
     {
         var item = await database.Webhooks.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         if (item is null) return null;
@@ -44,7 +47,8 @@ public class WebhookConfigurationService(WebhookDbContext database, WebhookSchem
         return await database.Webhooks.Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken) > 0;
     }
 
-    private async Task ApplyAsync(WebhookDefinition item, WebhookConfiguration config, CancellationToken cancellationToken)
+    private async Task ApplyAsync(WebhookDefinition item, WebhookConfiguration config,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(config);
         ArgumentException.ThrowIfNullOrWhiteSpace(config.Name);
@@ -57,7 +61,8 @@ public class WebhookConfigurationService(WebhookDbContext database, WebhookSchem
         if (config.ResponseStatusCode is < 200 or > 599 or 204 or 205 or 304)
             throw new ArgumentException("Status code must allow a JSON response body.");
         validator.ValidateConfiguration(config.RequestSchemaJson, config.ResponseSchemaJson, config.ResponseBodyJson);
-        if (await database.Webhooks.AnyAsync(x => x.Id != item.Id && x.Path == path && x.HttpMethod == method, cancellationToken))
+        if (await database.Webhooks.AnyAsync(x => x.Id != item.Id && x.Path == path && x.HttpMethod == method,
+                cancellationToken))
             throw new InvalidOperationException("A webhook already exists for this path and method.");
 
         item.Name = config.Name.Trim();
@@ -80,6 +85,6 @@ public class WebhookConfigurationService(WebhookDbContext database, WebhookSchem
     }
 
     private static WebhookConfigurationView ToView(WebhookDefinition x) => new(x.Id,
-        new(x.Name, x.Path, x.HttpMethod, x.IsEnabled, x.RequestSchemaJson,
+        (WebhookConfiguration)new(x.Name, x.Path, x.HttpMethod, x.IsEnabled, x.RequestSchemaJson,
             x.ResponseSchemaJson, x.ResponseBodyJson, x.ResponseStatusCode));
 }

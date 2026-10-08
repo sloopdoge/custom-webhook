@@ -1,12 +1,13 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using webhook.sample.Services;
+using webhook.sample.application.Interfaces;
 
 namespace webhook.sample.Controllers;
 
 [ApiController]
 [Route("{**path}")]
-public class WebhooksController(IWebhookExecutionService executionService,
+public class WebhooksController(
+    IWebhookExecutionService executionService,
     ILogger<WebhooksController> logger) : ControllerBase
 {
     [AcceptVerbs("GET", "POST", "PUT", "PATCH", "DELETE")]
@@ -18,7 +19,8 @@ public class WebhooksController(IWebhookExecutionService executionService,
         JsonElement body;
         try
         {
-            if (Request.ContentLength == 0 || (Request.ContentLength is null && !Request.Headers.ContainsKey("Transfer-Encoding")))
+            if (Request.ContentLength == 0 ||
+                (Request.ContentLength is null && !Request.Headers.ContainsKey("Transfer-Encoding")))
             {
                 body = JsonSerializer.SerializeToElement<object?>(null);
             }

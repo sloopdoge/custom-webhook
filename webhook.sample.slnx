@@ -1,3 +1,7 @@
 <Solution>
+    <Project Path="webhook.sample.application/webhook.sample.application.csproj"/>
+    <Project Path="webhook.sample.domain/webhook.sample.domain.csproj"/>
+    <Project Path="webhook.sample.infrastructure/webhook.sample.infrastructure.csproj"/>
+    <Project Path="webhook.sample.repository/webhook.sample.repository.csproj"/>
   <Project Path="webhook.sample/webhook.sample.csproj" />
 </Solution>

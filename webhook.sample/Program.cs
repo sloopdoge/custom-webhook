@@ -1,10 +1,9 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using MintWebhook.Data;
+using webhook.sample.application.Abstractions;
+using webhook.sample.application.Interfaces;
 using webhook.sample.Components;
-using webhook.sample.Data;
-using webhook.sample.Models;
-using webhook.sample.Services;
+using webhook.sample.repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

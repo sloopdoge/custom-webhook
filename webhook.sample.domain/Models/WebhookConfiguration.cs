@@ -1,4 +1,4 @@
-namespace webhook.sample.Models;
+namespace webhook.sample.domain.Models;
 
 public record WebhookConfiguration(
     string Name,
